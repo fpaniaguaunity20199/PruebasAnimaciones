@@ -4,28 +4,43 @@ using UnityEngine;
 
 public class Remigio : MonoBehaviour
 {
+    private const string ANIM_STATE_REM_FALL_FLAT = "Fall Flat";
+    private const string ANIM_STATE_REM_STAND_UP = "Standing Up";
+    private const string ANIM_STATE_REM_KNOCK_OUT = "Knocked Out";
+
+    private const string ANIM_PARAM_REM_TRIG_TRIPPING = "Tripping";
+    private const string ANIM_PARAM_REM_TRIG_KO = "KO";
+
+    private const string ANIM_PARAM_REM_BOOL_WALKING = "Walking";
+    private const string ANIM_PARAM_REM_BOOL_RUNNING = "Running";
+    private const string ANIM_PARAM_REM_BOOL_BACKWALKING = "BackWalking";
+
+    private const float GAMEPAD_OFFSET = 0.1f;
+
     private Animator animator;
     private float x;
     public float walkSpeed;
     public float runSpeed;
     public float angularSpeed;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
     }
     void Update()
     {
-        transform.Rotate(0, Input.GetAxis("Horizontal") * angularSpeed * Time.deltaTime, 0);
-        if (Input.GetAxis("Vertical") > 0.1f 
-            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name!="Fall Flat" 
-            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name!="Standing Up"
-            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name!="Knocked Out")
+        //Determinamos si no esta en un estado que impida el movimiento
+        bool esMovible =
+            animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != ANIM_STATE_REM_FALL_FLAT
+            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != ANIM_STATE_REM_STAND_UP
+            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != ANIM_STATE_REM_KNOCK_OUT;
+        //Rotacion
+        transform.Rotate(0, Input.GetAxis(Constantes.INPUT_HORIZONTAL) * angularSpeed * Time.deltaTime, 0);
+        //Gestion del movimiento vertical
+        if (Input.GetAxis(Constantes.INPUT_VERTICAL) > GAMEPAD_OFFSET && esMovible)
         {
             Walk();
-        } else if (Input.GetAxis("Vertical") < -0.1f
-            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Fall Flat"
-            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Standing Up"
-            && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Knocked Out")
+        } else if (Input.GetAxis(Constantes.INPUT_VERTICAL) < -GAMEPAD_OFFSET && esMovible)
         {
             WalkBack();
         }
@@ -36,18 +51,21 @@ public class Remigio : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Tropiezo"))
+        if (other.gameObject.CompareTag(TagsManager.TAG_TROPIEZO))
         {
-            animator.SetTrigger("Tripping");
-        } else if (other.gameObject.CompareTag("Obstaculo"))
+            animator.SetTrigger(ANIM_PARAM_REM_TRIG_TRIPPING);
+        } else if (other.gameObject.CompareTag(TagsManager.TAG_OBSTACULO))
         {
-            animator.SetTrigger("KO");
+            animator.SetTrigger(ANIM_PARAM_REM_TRIG_KO);
         }
     }
+    /// <summary>
+    /// Anda (o corre)
+    /// </summary>
     private void Walk()
     {
-        animator.SetBool("Walking", true);
-        animator.SetBool("Running", Input.GetKey(KeyCode.LeftShift));
+        animator.SetBool(ANIM_PARAM_REM_BOOL_WALKING, true);
+        animator.SetBool(ANIM_PARAM_REM_BOOL_RUNNING, Input.GetKey(KeyCode.LeftShift));
         if (Input.GetKey(KeyCode.LeftShift))
         {
             //Corriendo
@@ -60,13 +78,13 @@ public class Remigio : MonoBehaviour
     }
     private void WalkBack()
     {
-        animator.SetBool("BackWalking", true);
+        animator.SetBool(ANIM_PARAM_REM_BOOL_BACKWALKING, true);
         transform.Translate(Vector3.back * walkSpeed * Time.deltaTime);
     }
     private void StopWalk()
     {
-        animator.SetBool("Walking", false);
-        animator.SetBool("Running", false);
-        animator.SetBool("BackWalking", false);
+        animator.SetBool(ANIM_PARAM_REM_BOOL_WALKING, false);
+        animator.SetBool(ANIM_PARAM_REM_BOOL_RUNNING, false);
+        animator.SetBool(ANIM_PARAM_REM_BOOL_BACKWALKING, false);
     }
 }
