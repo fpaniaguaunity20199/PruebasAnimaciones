@@ -13,6 +13,7 @@ public class Wenceslao2D : MonoBehaviour
     float speed = 0;
     public float aceleracion;
     public float delay;
+    private float axisScale = 2;
     void Start()
     {
         wenceslaoAnimator = GetComponent<Animator>();
@@ -21,6 +22,7 @@ public class Wenceslao2D : MonoBehaviour
     {
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
+        wenceslaoAnimator.SetFloat(PARAM_HORIZONTAL, h * axisScale);
         //Comienzo a andar
         if (!walking && v > V_OFFSET)
         {
@@ -42,7 +44,7 @@ public class Wenceslao2D : MonoBehaviour
         {
             speed = speed + aceleracion;
             speed = Mathf.Min(speed, v);
-            wenceslaoAnimator.SetFloat(PARAM_FORWARD, speed);
+            wenceslaoAnimator.SetFloat(PARAM_VERTICAL, speed * axisScale);
             yield return new WaitForSeconds(delay);
         }
     }
@@ -52,7 +54,7 @@ public class Wenceslao2D : MonoBehaviour
         {
             speed = speed - aceleracion;
             speed = Mathf.Max(speed, v);
-            wenceslaoAnimator.SetFloat(PARAM_FORWARD, speed);
+            wenceslaoAnimator.SetFloat(PARAM_VERTICAL, speed * axisScale);
             yield return new WaitForSeconds(delay);
         }
     }

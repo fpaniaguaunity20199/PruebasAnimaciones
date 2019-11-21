@@ -343,19 +343,13 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: ae8d538c6b7f9a744896bea0d7c48e15, type: 2}
     - target: {fileID: 9500000, guid: 3b3db834487ac6f45860e9047f94b54f, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b3db834487ac6f45860e9047f94b54f, type: 3}
 --- !u!1 &80616928 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100144, guid: 3b3db834487ac6f45860e9047f94b54f,
-    type: 3}
-  m_PrefabInstance: {fileID: 80616927}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &80616929 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400144, guid: 3b3db834487ac6f45860e9047f94b54f,
     type: 3}
   m_PrefabInstance: {fileID: 80616927}
   m_PrefabAsset: {fileID: 0}
@@ -368,11 +362,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 80616928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 425c84831d4425941a1295186aca4192, type: 3}
+  m_Script: {fileID: 11500000, guid: 08d58b73145b6e345993c6e607b12e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aceleracion: 0.005
+  aceleracion: 0.05
   delay: 0.01
+--- !u!4 &80616931 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400144, guid: 3b3db834487ac6f45860e9047f94b54f,
+    type: 3}
+  m_PrefabInstance: {fileID: 80616927}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &565863323
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,11 +572,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177855545}
-  m_LocalRotation: {x: -0.055416457, y: 0.70366913, z: -0.055216752, w: -0.70620805}
-  m_LocalPosition: {x: 7.238945, y: 4.0191326, z: -0.22782898}
+  m_LocalRotation: {x: -0.23210958, y: 0.022464275, z: -0.00536222, w: -0.97241545}
+  m_LocalPosition: {x: 0.16289139, y: 5.16, z: -4.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 80616929}
+  m_Father: {fileID: 80616931}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1177855547
